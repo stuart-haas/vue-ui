@@ -1,0 +1,4 @@
+node_modules
+coverage
+dist
+src/types/components.d.ts

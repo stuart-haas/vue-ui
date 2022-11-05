@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "importsNotUsedAsValues": "preserve",
+    "preserveValueImports": false,
+    "strict": true,
+    "sourceMap": true
+  },
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["src/**/*", "src/**/*.vue"],
+  "references": [
+    {
+      "path": "./tsconfig.vite-config.json"
+    }
+  ],
+}

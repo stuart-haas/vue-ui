@@ -1,0 +1,27 @@
+# git
+.git
+.gitignore
+
+# gitlab
+.gitlab
+.gitlab-ci.yml
+
+# docker
+Dockerfile*
+docker-compose*
+
+# terraform
+ops/terraform
+
+# dependencies
+.nvmrc
+node_modules
+
+# secrets
+.env
+.env.example
+
+# misc
+*.md
+.vscode
+.DS_Store

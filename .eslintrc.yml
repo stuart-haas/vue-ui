@@ -1,0 +1,16 @@
+env:
+  vue/setup-compiler-macros: true
+extends:
+  - prettier
+  - plugin:vue/vue3-essential
+  - eslint:recommended
+  - '@vue/eslint-config-typescript/recommended'
+  - '@vue/eslint-config-prettier'
+rules:
+  prettier/prettier:
+    - warn
+    -
+        singleQuote: true
+        indent: 2
+        semi: true
+  vue/multi-word-component-names: 0
