@@ -1,11 +1,11 @@
 import { defineStore, _GettersTree } from 'pinia';
 
 export interface Actions {
-  [key: string]: unknown;
+  toggleSidebar: () => void;
 }
 
 export interface State {
-  loading: boolean;
+  sidebarOpen: boolean;
 }
 
 export const useRootStore = defineStore<
@@ -15,7 +15,11 @@ export const useRootStore = defineStore<
   Actions
 >('root', {
   state: (): State => ({
-    loading: false,
+    sidebarOpen: true,
   }),
-  actions: {},
+  actions: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
+    }
+  },
 });

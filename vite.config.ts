@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
-import Components from 'unplugin-vue-components/vite';
 import SvgLoader from 'vite-svg-loader';
 
 // https://vitejs.dev/config/
@@ -13,13 +12,6 @@ export default defineConfig({
   },
   plugins: [
     Vue(),
-    // https://github.com/antfu/unplugin-vue-components
-    Components({
-      dirs: ['src/components', 'src/modules', 'src/icons'],
-      extensions: ['vue', 'svg'],
-      include: [/\.vue$/, /\.vue\?vue/, /\.svg$/],
-      dts: 'src/types/components.d.ts',
-    }),
     // https://github.com/jpkleemans/vite-svg-loader
     SvgLoader(),
   ],

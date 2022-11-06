@@ -1,15 +1,13 @@
 <template>
-  <div class="flex min-h-full">
-    <div class="flex-1">
-      <main>
-        <router-view />
-      </main>
-    </div>
-  </div>
+  <Topbar />
+  <Layout>
+    <Navigation />
+    <Layout.Main>
+      <router-view />
+    </Layout.Main>
+  </Layout>
 </template>
 
-<style lang="postcss" scoped>
-main {
-  @apply min-h-full py-4 px-8 bg-gray-100;
-}
-</style>
+<script setup lang="ts">
+import { Layout, Navigation, Topbar } from '@/components';
+</script>
