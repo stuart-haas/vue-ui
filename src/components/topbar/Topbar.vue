@@ -2,6 +2,7 @@
   <header class="app-topbar">
     <img src="/favicon.svg" class="w-8 h-8" />
     <Search />
+    <div></div>
   </header>
 </template>
 
