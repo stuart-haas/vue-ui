@@ -5,6 +5,7 @@
       'TextField--hasFocus': hasFocus,
       'TextField--inline': inline,
       'TextField--error': errors.length,
+      'TextField--hasIcon' : icon,
     }"
   >
     <label v-if="label" :for="name" class="TextField__label">

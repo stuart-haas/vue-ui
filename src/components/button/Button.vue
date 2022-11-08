@@ -1,5 +1,8 @@
 <template>
-  <button class="Button" :class="[`Button--${variant}`]">
+  <button
+    class="Button"
+    :class="[`Button--variant-${variant}`, { 'Button--hasIcon': icon }]"
+  >
     <i v-if="icon" :class="icon" />
     <span class="font-semibold">
       <slot />
@@ -22,10 +25,10 @@ withDefaults(defineProps<Props>(), {
 .Button {
   @apply border rounded px-4 py-2 space-x-4 transition-colors duration-200;
 }
-.Button--base {
+.Button--variant-base {
   @apply bg-white border-gray-300 text-black hover:bg-gray-100;
 }
-.Button--danger {
+.Button--variant-danger {
   @apply bg-red-100 border-red-500 text-red-700 hover:bg-red-200;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" class="Navigation__NavigationItem">
+  <component :is="component" class="Navigation__NavigationItem NavigationItem">
     <i v-if="icon" class="NavigationItem__icon" :class="[icon]" />
     <span class="NavigationItem__text">
       <slot />
@@ -19,7 +19,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="postcss" scoped>
-.Navigation__NavigationItem {
+.NavigationItem {
   @apply text-black cursor-pointer hover:text-blue-500 flex items-center justify-start space-x-4 duration-200 transition-colors ease-in;
 }
 .NavigationItem__icon {

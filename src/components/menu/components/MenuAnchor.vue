@@ -1,7 +1,7 @@
 <template>
   <div class="Menu__MenuAnchor">
     <slot :toggle="toggle">
-      <Button @click="toggle">Menu</Button>
+      <Button @click="toggle">Menu Anchor</Button>
     </slot>
   </div>
 </template>

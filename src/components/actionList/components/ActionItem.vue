@@ -1,8 +1,8 @@
 <template>
   <component
     :is="component"
-    class="ActionList__ActionItem"
-    :class="[`ActionList__ActionItem--${variant}`]"
+    class="ActionList__ActionItem ActionItem"
+    :class="[`ActionItem--variant-${variant}`, { 'ActionItem--hasIcon': icon }]"
   >
     <div v-if="icon" class="ActionItem__icon">
       <i :class="icon" />
@@ -27,7 +27,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="postcss" scoped>
-.ActionList__ActionItem {
+.ActionItem {
   @apply w-full flex items-center justify-between py-2 px-4 space-x-8 bg-white hover:bg-gray-200 rounded cursor-pointer transition-colors duration-200;
 }
 .ActionItem__icon {
@@ -36,10 +36,10 @@ withDefaults(defineProps<Props>(), {
 .ActionItem__text {
   @apply whitespace-nowrap text-sm;
 }
-.ActionList__ActionItem--base {
+.ActionItem--variant-base {
   @apply text-black;
 }
-.ActionList__ActionItem--danger {
+.ActionItem--variant-danger {
   @apply text-red-500;
 }
 </style>

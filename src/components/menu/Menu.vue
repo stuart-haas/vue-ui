@@ -1,10 +1,10 @@
 <template>
-  <div class="Menu" v-click-outside="close">
+  <div class="Menu" :class="{ 'Menu--active': active }" v-click-outside="close">
     <slot name="button" :toggle="toggle">
       <MenuAnchor />
     </slot>
     <Transition name="slide-fade">
-      <div v-if="active" class="Menu__child">
+      <div v-if="active" class="Menu__content">
         <slot />
       </div>
     </Transition>
@@ -38,7 +38,7 @@ function close() {
 .Menu {
   @apply relative;
 }
-.Menu__child {
+.Menu__content {
   @apply absolute bg-white rounded shadow-md border border-gray-300 p-2 right-0 mt-2;
 }
 </style>
