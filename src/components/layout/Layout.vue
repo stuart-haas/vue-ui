@@ -1,11 +1,11 @@
 <template>
-  <div class="app-layout">
+  <div class="Layout">
     <slot />
   </div>
 </template>
 
 <style lang="postcss" scoped>
-.app-layout {
+.Layout {
   @apply flex min-h-full;
 }
 </style>

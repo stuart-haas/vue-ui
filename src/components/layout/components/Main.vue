@@ -1,11 +1,11 @@
 <template>
-  <main class="app-layout__main">
+  <main class="Layout_Main">
     <slot />
   </main>
 </template>
 
 <style lang="postcss" scoped>
-.app-layout__main {
+.Layout_Main {
   @apply bg-gray-200 w-full min-h-full;
 }
 </style>

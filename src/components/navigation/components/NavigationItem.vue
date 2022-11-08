@@ -1,7 +1,7 @@
 <template>
-  <component :is="component" class="app-nav-item">
-    <i v-if="icon" class="app-nav-item__icon" :class="[icon]" />
-    <span class="app-nav-item__text">
+  <component :is="component" class="Navigation_NavigationItem">
+    <i v-if="icon" class="NavigationItem_icon" :class="[icon]" />
+    <span class="NavigationItem_text">
       <slot />
     </span>
   </component>
@@ -19,13 +19,13 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="postcss" scoped>
-.app-nav-item {
-  @apply text-black cursor-pointer hover:text-indigo-500 transition-colors duration-200 flex items-center justify-start space-x-4;
+.Navigation_NavigationItem {
+  @apply text-black cursor-pointer hover:text-indigo-500 flex items-center justify-start space-x-4;
 }
-.app-nav-item__icon {
+.NavigationItem_icon {
   @apply inline;
 }
-.app-nav-item__text {
+.NavigationItem_text {
   @apply font-semibold;
 }
 </style>

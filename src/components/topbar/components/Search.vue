@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border border-gray-300 rounded inline-block px-4 pb-1.5 pt-1 w-96"
+    class="border border-gray-300 rounded inline-block px-4 pb-1.5 pt-1 w-96 bg-white"
     :class="{ 'border-blue-500': hasFocus }"
   >
     <input

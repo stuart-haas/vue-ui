@@ -1,11 +1,11 @@
 <template>
-  <main class="app-page">
+  <main class="Page">
     <slot />
   </main>
 </template>
 
 <style lang="postcss" scoped>
-.app-page {
+.Page {
   @apply bg-gray-200 w-full min-h-full;
 }
 </style>
