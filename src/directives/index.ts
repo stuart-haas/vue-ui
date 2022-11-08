@@ -1,3 +1,4 @@
-import ClickOutside from './click-outside';
+import ClickOutside from './ClickOutside';
+import Focus from './Focus';
 
-export { ClickOutside };
+export { ClickOutside, Focus };
