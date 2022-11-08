@@ -3,7 +3,7 @@
     <slot name="button" :toggle="toggle">
       <MenuAnchor />
     </slot>
-    <Transition name="fade">
+    <Transition name="slide-fade">
       <div v-if="active" class="Menu__child">
         <slot />
       </div>

@@ -23,3 +23,16 @@
 .fade-leave-to {
   @apply opacity-0;
 }
+
+.slide-fade-enter-active {
+  @apply transition-all duration-200 ease-out;
+}
+
+.slide-fade-leave-active {
+  @apply transition-all duration-200 ease-out;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  @apply opacity-0 transform -translate-y-2;
+}
