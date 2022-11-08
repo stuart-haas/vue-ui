@@ -1,31 +1,43 @@
 <template>
-  <div class="TextField" :class="{ 'TextField--inline': inline }">
-    <label v-if="label" :for="name" class="TextField_label">
+  <div
+    class="TextField"
+    :class="{
+      'TextField--hasFocus': hasFocus,
+      'TextField--inline': inline,
+      'TextField--error': errors.length,
+    }"
+  >
+    <label v-if="label" :for="name" class="TextField__label">
       {{ label }}
     </label>
-    <div
-      class="TextField_input"
-      :class="{ 'TextField_input--hasFocus': hasFocus }"
-    >
-      <div v-if="$slots.prepend" class="TextField_prepend">
+    <div class="TextField__control">
+      <div v-if="$slots.prepend" class="TextField__prepend">
         <slot name="prepend" />
       </div>
       <component
-        class="TextField_element"
+        class="TextField__component"
         :is="component"
         :type="type"
         :id="name"
         :name="name"
         :value="value"
         :placeholder="inputPlaceholder"
-        @change="onChange"
+        @keyup="onUpdate"
+        @change="onUpdate"
         @focus="onFocus"
         @blur="onBlur"
       />
     </div>
-  </div>
-  <div v-if="errorMessage" class="TextField_error">
-    {{ errorMessage }}
+    <div v-if="errors.length" class="TextField__errors">
+      <span
+        v-for="(error, index) in errors"
+        :key="index"
+        class="TextField__error"
+      >
+        <i class="TextField__error-icon fas fa-exclamation-circle" />
+        <span class="TextField__error-text">{{ error }}</span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -42,6 +54,7 @@ type Props = {
   placeholder?: string;
   standalone?: boolean;
   inline?: boolean;
+  validation?: any;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -53,10 +66,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['update:value']);
 
-const { value, handleChange, handleBlur, errorMessage } = useField(
+const { value, handleChange, handleBlur, errors } = useField(
   props.name as string,
-  undefined,
+  props.validation,
   {
+    type: props.type,
     initialValue: props.value,
     standalone: props.standalone,
   }
@@ -68,7 +82,7 @@ const inputPlaceholder = computed(() =>
   props.placeholder ? props.placeholder : props.label
 );
 
-function onChange(e: Event) {
+function onUpdate(e: Event) {
   emit('update:value', (e.target as HTMLInputElement).value);
   handleChange(e);
 }
@@ -78,28 +92,43 @@ function onFocus() {
 }
 
 function onBlur(e: Event) {
-  handleBlur(e);
   hasFocus.value = false;
+  handleBlur(e);
 }
 </script>
 
 <style lang="postcss" scoped>
-.TextField--inline .TextField_label {
+.TextField--hasFocus .TextField__input {
+  @apply border-2 border-blue-500;
+}
+.TextField--inline .TextField__label {
   @apply inline-block mr-2;
 }
-.TextField_label {
+.TextField--error .TextField__control {
+  @apply border-red-500;
+}
+.TextField__label {
   @apply block text-sm;
 }
-.TextField_prepend {
+.TextField__prepend {
   @apply inline mr-2;
 }
-.TextField_input {
+.TextField__control {
   @apply border border-gray-300 rounded inline-block px-3 pb-1.5 pt-1 w-96 bg-white transition duration-200;
 }
-.TextField_input--hasFocus {
-  @apply border-2 border-indigo-500;
-}
-.TextField_element {
+.TextField__component {
   @apply outline-none;
+}
+.TextField__errors {
+  @apply mt-1;
+}
+.TextField__error {
+  @apply block;
+}
+.TextField__error-icon {
+  @apply mr-1 text-red-500 text-sm;
+}
+.TextField__error-text {
+  @apply text-sm text-red-500;
 }
 </style>

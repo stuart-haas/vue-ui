@@ -4,7 +4,7 @@
       <MenuAnchor />
     </slot>
     <Transition name="fade">
-      <div v-if="active" class="Menu_child">
+      <div v-if="active" class="Menu__child">
         <slot />
       </div>
     </Transition>
@@ -28,7 +28,7 @@ function toggle() {
 .Menu {
   @apply relative;
 }
-.Menu_child {
+.Menu__child {
   @apply absolute bg-white rounded shadow-md border border-gray-300 p-2 right-0 mt-2;
 }
 </style>
