@@ -1,6 +1,6 @@
 <template>
   <header class="Topbar">
-    <img src="/favicon.svg" class="Topbar__logo" />
+    <img class="Topbar__logo" src="/favicon.svg" />
     <Search class="Topbar__Search" />
     <Menu class="Topbar__Menu">
       <template #button>

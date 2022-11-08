@@ -1,5 +1,5 @@
 <template>
-  <div class="Menu">
+  <div class="Menu" v-click-outside="close">
     <slot name="button" :toggle="toggle">
       <MenuAnchor />
     </slot>
@@ -18,9 +18,19 @@ import { MenuAnchor } from './components';
 const active = ref<boolean>(false);
 
 provide('toggle', toggle);
+provide('open', open);
+provide('close', close);
 
 function toggle() {
   active.value = !active.value;
+}
+
+function open() {
+  active.value = true;
+}
+
+function close() {
+  active.value = false;
 }
 </script>
 

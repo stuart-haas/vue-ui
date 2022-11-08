@@ -4,7 +4,9 @@
     class="ActionList__ActionItem"
     :class="[`ActionList__ActionItem--${variant}`]"
   >
-    <i v-if="icon" class="ActionItem__icon" :class="icon" />
+    <div v-if="icon" class="ActionItem__icon">
+      <i :class="icon" />
+    </div>
     <span class="ActionItem__text">
       <slot />
     </span>
@@ -20,19 +22,19 @@ type Props = {
 
 withDefaults(defineProps<Props>(), {
   variant: 'base',
-  component: 'span',
+  component: 'button',
 });
 </script>
 
 <style lang="postcss" scoped>
 .ActionList__ActionItem {
-  @apply flex items-center justify-start py-1 px-2 bg-white hover:bg-gray-200 rounded cursor-pointer transition-colors duration-200;
+  @apply w-full flex items-center justify-between py-2 px-4 space-x-8 bg-white hover:bg-gray-200 rounded cursor-pointer transition-colors duration-200;
 }
 .ActionItem__icon {
-  @apply mr-4;
+  @apply text-sm;
 }
 .ActionItem__text {
-  @apply whitespace-nowrap;
+  @apply whitespace-nowrap text-sm;
 }
 .ActionList__ActionItem--base {
   @apply text-black;

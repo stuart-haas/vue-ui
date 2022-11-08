@@ -11,8 +11,8 @@
       {{ label }}
     </label>
     <div class="TextField__control">
-      <div v-if="$slots.prepend" class="TextField__prepend">
-        <slot name="prepend" />
+      <div v-if="icon" class="TextField__icon">
+        <i :class="icon" />
       </div>
       <component
         class="TextField__component"
@@ -55,6 +55,7 @@ type Props = {
   standalone?: boolean;
   inline?: boolean;
   validation?: any;
+  icon?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -110,7 +111,7 @@ function onBlur(e: Event) {
 .TextField__label {
   @apply block text-sm;
 }
-.TextField__prepend {
+.TextField__icon {
   @apply inline mr-2;
 }
 .TextField__control {
