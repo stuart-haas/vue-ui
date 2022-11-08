@@ -23,9 +23,9 @@ withDefaults(defineProps<Props>(), {
   @apply border rounded px-4 py-2 space-x-4 transition-colors duration-200;
 }
 .Button--base {
-  @apply bg-white border-gray-300 text-black;
+  @apply bg-white border-gray-300 text-black hover:bg-gray-100;
 }
 .Button--danger {
-  @apply bg-red-200 border-red-500 text-red-700;
+  @apply bg-red-100 border-red-500 text-red-700 hover:bg-red-200;
 }
 </style>

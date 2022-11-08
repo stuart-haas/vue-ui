@@ -1,20 +1,11 @@
 <template>
-  <div
-    class="border border-gray-300 rounded inline-block px-4 pb-1.5 pt-1 w-96 bg-white"
-    :class="{ 'border-blue-500': hasFocus }"
-  >
-    <input
-      type="text"
-      placeholder="Search"
-      class="outline-none"
-      @focus="hasFocus = true"
-      @blur="hasFocus = false"
-    />
-  </div>
+  <TextField placeholder="Search">
+    <template #prepend>
+      <i class="fas fa-search text-gray-700" />
+    </template>
+  </TextField>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const hasFocus = ref(false);
+import { TextField } from '@/components';
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="Menu">
-    <MenuAnchor>
-      <slot name="button" :toggle="toggle" />
-    </MenuAnchor>
+    <slot name="button" :toggle="toggle">
+      <MenuAnchor />
+    </slot>
     <Transition name="fade">
       <div v-if="active" class="Menu_child">
         <slot />
