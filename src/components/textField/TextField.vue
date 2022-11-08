@@ -98,7 +98,7 @@ function onBlur(e: Event) {
 </script>
 
 <style lang="postcss" scoped>
-.TextField--hasFocus .TextField__input {
+.TextField--hasFocus .TextField__control {
   @apply border-2 border-blue-500;
 }
 .TextField--inline .TextField__label {
