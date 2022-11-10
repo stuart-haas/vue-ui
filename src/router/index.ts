@@ -6,7 +6,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/pages/Dashboard.vue'),
+      component: () => import('@/layouts/LayoutDefault.vue'),
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('@/pages/Dashboard.vue'),
+        },
+      ],
     },
   ],
 });

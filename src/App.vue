@@ -1,9 +1,3 @@
 <template>
-  <LayoutProvider>
-    <router-view />
-  </LayoutProvider>
+  <router-view />
 </template>
-
-<script setup lang="ts">
-import LayoutProvider from '@/layouts/LayoutProvider.vue';
-</script>
