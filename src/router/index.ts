@@ -4,16 +4,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '',
-      name: 'application',
-      component: () => import('@/layouts/default.vue'),
-      children: [
-        {
-          path: '',
-          name: 'index',
-          component: () => import('@/pages/index.vue'),
-        },
-      ],
+      path: '/',
+      name: 'home',
+      component: () => import('@/pages/Dashboard.vue'),
     },
   ],
 });

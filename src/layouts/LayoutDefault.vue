@@ -8,7 +8,11 @@
       <Navigation.Item to="/" icon="fas fa-cog"> Settings </Navigation.Item>
     </Navigation>
     <Layout.Main>
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </Layout.Main>
   </Layout>
 </template>
