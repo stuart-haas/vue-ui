@@ -8,7 +8,7 @@
       <Navigation.Item to="/" icon="fas fa-cog"> Settings </Navigation.Item>
     </Navigation>
     <Layout.Main>
-      <Layout.Page />
+      <Layout.RouterView />
     </Layout.Main>
   </Layout>
 </template>

@@ -6,3 +6,5 @@ export * from './topbar';
 export * from './menu';
 export * from './button';
 export * from './textField';
+export * from './dataTable';
+export * from './card';

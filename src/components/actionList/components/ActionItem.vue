@@ -1,7 +1,7 @@
 <template>
   <component
     :is="component"
-    class="ActionList__ActionItem ActionItem"
+    class="ActionList__Item ActionItem"
     :class="[`ActionItem--variant-${variant}`, { 'ActionItem--hasIcon': icon }]"
   >
     <div v-if="icon" class="ActionItem__icon">

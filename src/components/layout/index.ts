@@ -1,7 +1,8 @@
 import Layout from './Layout.vue';
-import { Main, Page } from './components';
+import { Main, RouterView, Section } from './components';
 
 Layout.Main = Main;
-Layout.Page = Page;
+Layout.RouterView = RouterView;
+Layout.Section = Section;
 
 export { Layout };

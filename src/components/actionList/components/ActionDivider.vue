@@ -1,9 +1,9 @@
 <template>
-  <span class="ActionList__ActionDivider" />
+  <span class="ActionList__Divider ActionDivider" />
 </template>
 
 <style lang="postcss" scoped>
-.ActionList__ActionDivider {
+.ActionDivider {
   @apply block border-b border-gray-300 my-1.5;
 }
 </style>
