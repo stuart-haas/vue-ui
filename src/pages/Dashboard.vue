@@ -162,7 +162,7 @@ onMounted(async () => {
 });
 
 async function fetch() {
-  const token = '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';
+  const token = import.meta.env.VITE_GH_PERSONAL_ACCESS_TOKEN;
   const response = await axios.get(
     `https://api.github.com/user/repos?sort=${sort.value}&visibility=${visibility.value}&direction=${direction.value}&per_page=${perPage.value}&page=${page.value}`,
     {
