@@ -39,6 +39,6 @@ function close() {
   @apply relative;
 }
 .Menu__content {
-  @apply absolute bg-white rounded shadow-md border border-gray-300 p-2 right-0 mt-2;
+  @apply absolute bg-white rounded shadow-md border border-gray-300 p-2 right-0 mt-2 z-10;
 }
 </style>

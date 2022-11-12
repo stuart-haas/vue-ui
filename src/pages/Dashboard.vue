@@ -46,13 +46,32 @@
         </div>
         <DataTable :data="data" :cells="cells" :headers="headers">
           <template #appendHeader>
-            <DataTable.Header align="right"> Topics </DataTable.Header>
+            <DataTable.Header> Topics </DataTable.Header>
+            <DataTable.Header align="right"> Actions </DataTable.Header>
           </template>
           <template #appendCell="{ row }">
-            <DataTable.Cell align="right">
+            <DataTable.Cell>
               <Tag v-for="(topic, index) in row.topics" :key="index">
                 {{ topic }}
               </Tag>
+            </DataTable.Cell>
+            <DataTable.Cell align="right">
+              <Menu class="Topbar__Menu">
+                <template #button>
+                  <Menu.Anchor>
+                    <template #default="{ toggle }">
+                      <button @click="toggle">
+                        <i class="fas fa-ellipsis-h" />
+                      </button>
+                    </template>
+                  </Menu.Anchor>
+                </template>
+                <ActionList>
+                  <ActionList.Item icon="fas fa-project-diagram">
+                    View Commits
+                  </ActionList.Item>
+                </ActionList>
+              </Menu>
             </DataTable.Cell>
           </template>
         </DataTable>
@@ -101,7 +120,16 @@
 </template>
 
 <script setup lang="ts">
-import { Button, Card, DataTable, Layout, Page, Tag } from '@/components';
+import {
+  Button,
+  Card,
+  DataTable,
+  Layout,
+  Page,
+  Tag,
+  ActionList,
+  Menu,
+} from '@/components';
 import { useTable } from '@/composables';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
@@ -134,7 +162,7 @@ onMounted(async () => {
 });
 
 async function fetch() {
-  const token = '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';
+  const token = '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';
   const response = await axios.get(
     `https://api.github.com/user/repos?sort=${sort.value}&visibility=${visibility.value}&direction=${direction.value}&per_page=${perPage.value}&page=${page.value}`,
     {
