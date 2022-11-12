@@ -8,3 +8,4 @@ export * from './button';
 export * from './textField';
 export * from './dataTable';
 export * from './card';
+export * from './tag';

@@ -1,11 +1,15 @@
 <template>
   <tr class="DataTable__Row DataTableRow">
+    <slot name="prepend" :row="row" :index="index" :data="data" />
     <DataTableCell
       v-for="(cell, index) in cells"
       :key="index"
       :cell="cell"
       :row="row"
+      :index="index"
+      :data="data"
     />
+    <slot name="append" :row="row" :index="index" :data="data" />
   </tr>
 </template>
 
@@ -16,6 +20,8 @@ import { DataTableCellSchema, DataTableDataSchema } from '../types';
 type Props = {
   row: DataTableDataSchema;
   cells: DataTableCellSchema[];
+  index: number;
+  data: DataTableDataSchema[];
 };
 
 defineProps<Props>();

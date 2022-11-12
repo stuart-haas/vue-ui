@@ -1,11 +1,13 @@
 <template>
   <table class="DataTable">
     <thead class="DataTable__header_group">
+      <slot name="prependHeader" />
       <DataTableHeader
         v-for="(header, index) in headerMap"
         :key="index"
         :header="header"
       />
+      <slot name="appendHeader" />
     </thead>
     <tbody class="DataTable__body">
       <DataTableRow
@@ -13,7 +15,16 @@
         :key="index"
         :row="row"
         :cells="cellMap"
-      />
+        :index="index"
+        :data="data"
+      >
+        <template #prepend>
+          <slot name="prependCell" :row="row" />
+        </template>
+        <template #append>
+          <slot name="appendCell" :row="row" />
+        </template>
+      </DataTableRow>
     </tbody>
   </table>
 </template>
