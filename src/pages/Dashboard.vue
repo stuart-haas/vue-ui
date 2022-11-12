@@ -56,8 +56,8 @@
             </DataTable.Cell>
           </template>
         </DataTable>
-        <div class="grid grid-cols-3 mt-4 items-center justify-items-center">
-          <div v-if="links" class="space-x-4 text-sm justify-self-start">
+        <div class="flex mt-4 items-center justify-between">
+          <div v-if="links" class="space-x-4 text-sm">
             <Button :disabled="!links.first" @click="goToPage(firstPage)">
               First</Button
             >
@@ -78,8 +78,8 @@
               {{ lastPage || page }}
             </span>
           </div>
-          <div class="space-x-4 mb-4 flex items-center justify-self-end">
-            <div>
+          <div class="space-x-4 mb-4 flex items-center">
+            <div v-if="nextPage">
               <label for="perPage" class="block text-sm">Per Page</label>
               <select
                 id="perPage"
@@ -87,6 +87,7 @@
                 v-model="perPage"
                 @change="fetch"
               >
+                <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
@@ -121,7 +122,7 @@ const links = ref();
 const sort = ref('created');
 const direction = ref('desc');
 const visibility = ref('all');
-const perPage = ref(25);
+const perPage = ref(10);
 const page = ref(1);
 const firstPage = ref();
 const prevPage = ref();
@@ -133,7 +134,7 @@ onMounted(async () => {
 });
 
 async function fetch() {
-  const token = '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';
+  const token = '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';
   const response = await axios.get(
     `https://api.github.com/user/repos?sort=${sort.value}&visibility=${visibility.value}&direction=${direction.value}&per_page=${perPage.value}&page=${page.value}`,
     {
@@ -143,12 +144,19 @@ async function fetch() {
       },
     }
   );
+
   data.value = response.data;
-  links.value = getLinks(response.headers['link'] as string);
-  firstPage.value = getPage(links.value.first);
-  prevPage.value = getPage(links.value.prev);
-  nextPage.value = getPage(links.value.next);
-  lastPage.value = getPage(links.value.last);
+
+  const link = response.headers['link'];
+  if (link) {
+    links.value = getLinks(link);
+    firstPage.value = getPage(links.value.first);
+    prevPage.value = getPage(links.value.prev);
+    nextPage.value = getPage(links.value.next);
+    lastPage.value = getPage(links.value.last);
+  } else {
+    links.value = null;
+  }
 }
 
 async function goToPage(value: number) {
@@ -156,14 +164,13 @@ async function goToPage(value: number) {
   await fetch();
 }
 
-function getLinks(arr: string) {
-  const data = (arr.length == 2 ? arr[1] : arr) as any;
-  let parsedData: any = {};
+function getLinks(links: string) {
+  let parsedData: Record<string, unknown> = {};
 
-  arr = data.split(',');
+  const splitData = links.split(',');
 
-  for (let d of arr) {
-    const linkInfo: any = /<([^>]+)>;\s+rel="([^"]+)"/gi.exec(d);
+  for (let d of splitData) {
+    const linkInfo = /<([^>]+)>;\s+rel="([^"]+)"/gi.exec(d) as RegExpExecArray;
 
     parsedData[linkInfo[2]] = linkInfo[1];
   }
