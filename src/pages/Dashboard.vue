@@ -46,11 +46,11 @@
         </div>
         <DataTable :data="data" :cells="cells" :headers="headers">
           <template #appendHeader>
-            <DataTable.Header> Topics </DataTable.Header>
+            <DataTable.Header align="center"> Topics </DataTable.Header>
             <DataTable.Header align="right"> Actions </DataTable.Header>
           </template>
           <template #appendCell="{ row }">
-            <DataTable.Cell>
+            <DataTable.Cell align="center">
               <Tag v-for="(topic, index) in row.topics" :key="index">
                 {{ topic }}
               </Tag>
@@ -162,7 +162,7 @@ onMounted(async () => {
 });
 
 async function fetch() {
-  const token = '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';
+  const token = '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';
   const response = await axios.get(
     `https://api.github.com/user/repos?sort=${sort.value}&visibility=${visibility.value}&direction=${direction.value}&per_page=${perPage.value}&page=${page.value}`,
     {
@@ -218,19 +218,23 @@ const { cells, headers } = useTable<Data>({
   headerMap: [
     {
       label: 'Name',
+      attributes: () => ({ align: 'left' }),
     },
     {
       label: 'Description',
-      attributes: () => ({ colspan: 2 }),
+      attributes: () => ({ colspan: 2, align: 'left' }),
     },
     {
       label: 'Visibility',
+      attributes: () => ({ align: 'center' }),
     },
     {
       label: 'Created',
+      attributes: () => ({ align: 'left' }),
     },
     {
       label: 'Last Pushed',
+      attributes: () => ({ align: 'left' }),
     },
   ],
   cellMap: [
@@ -248,6 +252,7 @@ const { cells, headers } = useTable<Data>({
       attributes: () => ({ colspan: 2, class: 'text-sm' }),
     },
     {
+      attributes: () => ({ align: 'center' }),
       component: () => 'i',
       componentAttributes: ({ row }) => ({
         class:
