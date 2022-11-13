@@ -9,3 +9,6 @@ export * from './textField';
 export * from './dataTable';
 export * from './card';
 export * from './tag';
+export * from './link';
+export * from './dropdown';
+export * from './pagination';
