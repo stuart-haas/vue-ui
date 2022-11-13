@@ -1,6 +1,6 @@
 <template>
   <tr class="DataTable__Row DataTableRow">
-    <slot name="prepend" :row="row" :index="index" :data="data" />
+    <slot name="prependCell" :row="row" :index="index" :data="data" />
     <DataTableCell
       v-for="(cell, index) in cells"
       :key="index"
@@ -9,8 +9,9 @@
       :index="index"
       :data="data"
     />
-    <slot name="append" :row="row" :index="index" :data="data" />
+    <slot name="appendCell" :row="row" :index="index" :data="data" />
   </tr>
+  <slot />
 </template>
 
 <script setup lang="ts">

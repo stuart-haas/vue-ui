@@ -18,11 +18,14 @@
         :index="index"
         :data="data"
       >
-        <template #prepend>
-          <slot name="prependCell" :row="row" />
+        <template #prependCell>
+          <slot name="prependCell" :row="row" :index="index" />
         </template>
-        <template #append>
-          <slot name="appendCell" :row="row" />
+        <template #default>
+          <slot :row="row" :index="index" />
+        </template>
+        <template #appendCell>
+          <slot name="appendCell" :row="row" :index="index" />
         </template>
       </DataTableRow>
     </tbody>

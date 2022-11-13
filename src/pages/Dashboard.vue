@@ -28,33 +28,42 @@
           </div>
         </div>
         <DataTable :data="data" :cells="cells" :headers="headers">
+          <template #default="{ index }">
+            <transition name="fade">
+              <tr v-if="index === activeRow" class="border-b border-gray-300">
+                <td colspan="9">
+                  <div class="p-4 bg-gray-100 rounded my-4">
+                    <p class="font-semibold">Commit History</p>
+                    <div v-for="(item, index) in rowData" :key="index">
+                      <a
+                        :href="item.html_url"
+                        target="_blank"
+                        class="text-sm text-blue-500"
+                        >{{ item.commit.message }}</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </transition>
+          </template>
           <template #appendHeader>
             <DataTable.Header align="center"> Topics </DataTable.Header>
             <DataTable.Header align="right"> Actions </DataTable.Header>
           </template>
-          <template #appendCell="{ row }">
+          <template #appendCell="{ row, index }">
             <DataTable.Cell align="center">
               <Tag v-for="(topic, index) in row.topics" :key="index">
                 {{ topic }}
               </Tag>
             </DataTable.Cell>
             <DataTable.Cell align="right">
-              <Menu class="Topbar__Menu">
-                <template #button>
-                  <Menu.Anchor>
-                    <template #default="{ toggle }">
-                      <button @click="toggle">
-                        <i class="fas fa-ellipsis-h" />
-                      </button>
-                    </template>
-                  </Menu.Anchor>
-                </template>
-                <ActionList>
-                  <ActionList.Item icon="fas fa-project-diagram">
-                    View Commits
-                  </ActionList.Item>
-                </ActionList>
-              </Menu>
+              <ActionList.Item
+                icon="fas fa-project-diagram"
+                @click="toggleRow(row, index)"
+              >
+                View Commits
+              </ActionList.Item>
             </DataTable.Cell>
           </template>
         </DataTable>
@@ -77,7 +86,6 @@ import {
   Page,
   Tag,
   ActionList,
-  Menu,
   Link,
   Dropdown,
   Pagination,
@@ -86,6 +94,9 @@ import { useTable } from '@/composables';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { DateTime } from 'luxon';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 type Data = {
   id: number;
@@ -95,6 +106,7 @@ type Data = {
   topics: string[];
   pushed_at: string;
   created_at: string;
+  owner: any;
 };
 
 const visibilityItems = [
@@ -142,6 +154,9 @@ const directionItems = [
   },
 ];
 
+const activeRow = ref(-1);
+const rowData = ref<any[]>([]);
+const chartData = ref();
 const data = ref();
 const link = ref();
 const sort = ref('created');
@@ -168,6 +183,35 @@ async function fetch() {
 
   data.value = response.data;
   link.value = response.headers['link'];
+}
+
+async function toggleRow(row: any, index: number) {
+  if (activeRow.value == index) {
+    activeRow.value = -1;
+    return;
+  }
+  activeRow.value = index;
+  const token = import.meta.env.VITE_GH_PERSONAL_ACCESS_TOKEN;
+  const response = await axios.get(
+    `https://api.github.com/repos/${row.owner.login}/${row.name}/commits`,
+    {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  rowData.value = response.data;
+
+  chartData.value = {
+    labels: rowData.value.map((r) => r.commit.message),
+    datasets: [
+      {
+        data: rowData.value.map((r) => r.commit.author.date),
+      },
+    ],
+  };
 }
 
 const { cells, headers } = useTable<Data>({
