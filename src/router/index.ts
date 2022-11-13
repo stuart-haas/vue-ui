@@ -10,8 +10,12 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'dashboard',
-          component: () => import('@/pages/Dashboard.vue'),
+          name: 'repositories',
+          component: () => import('@/pages/Repositories.vue'),
+        },
+        {
+          path: 'repositories/:owner/:name',
+          component: () => import('@/pages/Repository.vue'),
         },
       ],
     },

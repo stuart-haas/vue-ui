@@ -19,6 +19,10 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="postcss" scoped>
+.NavigationItem.router-link-active,
+.NavigationItem.router-link-exact-active {
+  @apply text-blue-500;
+}
 .NavigationItem {
   @apply text-black cursor-pointer hover:text-blue-500 flex items-center justify-start space-x-4 duration-200 transition-colors ease-in;
 }

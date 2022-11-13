@@ -1,10 +1,10 @@
 <template>
-  <Page title="Dashboard">
+  <Page title="Repositories">
     <Layout.Section>
       <Card>
         <div class="space-x-4 mb-4 flex items-center justify-between">
           <Dropdown
-            v-model="visibility"
+            v-model="queryParams.visibility"
             @change="fetch"
             label="Visibility"
             name="visibility"
@@ -12,14 +12,14 @@
           />
           <div class="space-x-4 mb-4 flex items-center">
             <Dropdown
-              v-model="sort"
+              v-model="queryParams.sort"
               @change="fetch"
               label="Sort"
               name="sort"
               :items="sortItems"
             />
             <Dropdown
-              v-model="direction"
+              v-model="queryParams.direction"
               @change="fetch"
               label="Direction"
               name="direction"
@@ -28,34 +28,28 @@
           </div>
         </div>
         <DataTable :data="data" :cells="cells" :headers="headers">
-          <template #default="{ index }">
-            <transition name="fade">
-              <CommitHistory v-if="index === activeIndex" :item="activeRow" />
-            </transition>
-          </template>
           <template #appendHeader>
             <DataTable.Header align="center"> Topics </DataTable.Header>
             <DataTable.Header align="right"> Actions </DataTable.Header>
           </template>
-          <template #appendCell="{ row, index }">
+          <template #appendCell="{ row }">
             <DataTable.Cell align="center">
               <Tag v-for="(topic, index) in row.topics" :key="index">
                 {{ topic }}
               </Tag>
             </DataTable.Cell>
             <DataTable.Cell align="right">
-              <button
-                class="font-semibold text-blue-500"
-                @click="toggleRow(row, index)"
+              <Link
+                :to="`/repositories/${(row as any).owner.login}/${row.name}`"
               >
-                View Statistics
-              </button>
+                View
+              </Link>
             </DataTable.Cell>
           </template>
         </DataTable>
         <Pagination
-          v-model:page="page"
-          v-model:perPage="perPage"
+          v-model:page="queryParams.page"
+          v-model:perPage="queryParams.per_page"
           :link="link"
           :fetch="fetch"
         />
@@ -75,10 +69,8 @@ import {
   Dropdown,
   Pagination,
 } from '@/components';
-import { CommitHistory } from '@/modules';
-import { useTable } from '@/composables';
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { useTable, useFetch, QueryParams } from '@/composables';
+import { onMounted, toRefs, reactive } from 'vue';
 import { DateTime } from 'luxon';
 
 type Data = {
@@ -89,7 +81,7 @@ type Data = {
   topics: string[];
   pushed_at: string;
   created_at: string;
-  owner: any;
+  owner: { login: string };
 };
 
 const visibilityItems = [
@@ -137,44 +129,22 @@ const directionItems = [
   },
 ];
 
-const activeIndex = ref(-1);
-const activeRow = ref();
-const data = ref();
-const link = ref();
-const sort = ref('created');
-const direction = ref('desc');
-const visibility = ref('all');
-const perPage = ref(10);
-const page = ref(1);
+const queryParams = reactive({
+  sort: 'created',
+  visibility: 'all',
+  direction: 'desc',
+  per_page: 10,
+  page: 1,
+});
+
+const { data, link, fetch } = useFetch(
+  'user/repos',
+  toRefs(queryParams as QueryParams)
+);
 
 onMounted(async () => {
   await fetch();
 });
-
-async function fetch() {
-  const token = import.meta.env.VITE_GH_PERSONAL_ACCESS_TOKEN;
-  const response = await axios.get(
-    `https://api.github.com/user/repos?sort=${sort.value}&visibility=${visibility.value}&direction=${direction.value}&per_page=${perPage.value}&page=${page.value}`,
-    {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  data.value = response.data;
-  link.value = response.headers['link'];
-}
-
-async function toggleRow(row: any, index: number) {
-  if (activeIndex.value == index) {
-    activeIndex.value = -1;
-    return;
-  }
-  activeIndex.value = index;
-  activeRow.value = row;
-}
 
 const { cells, headers } = useTable<Data>({
   headerMap: [
