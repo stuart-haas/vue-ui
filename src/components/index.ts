@@ -12,3 +12,4 @@ export * from './tag';
 export * from './link';
 export * from './dropdown';
 export * from './pagination';
+export * from './popover';

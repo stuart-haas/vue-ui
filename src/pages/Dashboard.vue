@@ -30,21 +30,7 @@
         <DataTable :data="data" :cells="cells" :headers="headers">
           <template #default="{ index }">
             <transition name="fade">
-              <tr v-if="index === activeRow" class="border-b border-gray-300">
-                <td colspan="9">
-                  <div class="p-4 bg-gray-100 rounded my-4">
-                    <p class="font-semibold">Commit History</p>
-                    <div v-for="(item, index) in rowData" :key="index">
-                      <a
-                        :href="item.html_url"
-                        target="_blank"
-                        class="text-sm text-blue-500"
-                        >{{ item.commit.message }}</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
+              <CommitHistory v-if="index === activeIndex" :item="activeRow" />
             </transition>
           </template>
           <template #appendHeader>
@@ -58,12 +44,12 @@
               </Tag>
             </DataTable.Cell>
             <DataTable.Cell align="right">
-              <ActionList.Item
-                icon="fas fa-project-diagram"
+              <button
+                class="font-semibold text-blue-500"
                 @click="toggleRow(row, index)"
               >
-                View Commits
-              </ActionList.Item>
+                View Statistics
+              </button>
             </DataTable.Cell>
           </template>
         </DataTable>
@@ -85,18 +71,15 @@ import {
   Layout,
   Page,
   Tag,
-  ActionList,
   Link,
   Dropdown,
   Pagination,
 } from '@/components';
+import { CommitHistory } from '@/modules';
 import { useTable } from '@/composables';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { DateTime } from 'luxon';
-import { Chart, registerables } from 'chart.js';
-
-Chart.register(...registerables);
 
 type Data = {
   id: number;
@@ -154,9 +137,8 @@ const directionItems = [
   },
 ];
 
-const activeRow = ref(-1);
-const rowData = ref<any[]>([]);
-const chartData = ref();
+const activeIndex = ref(-1);
+const activeRow = ref();
 const data = ref();
 const link = ref();
 const sort = ref('created');
@@ -186,32 +168,12 @@ async function fetch() {
 }
 
 async function toggleRow(row: any, index: number) {
-  if (activeRow.value == index) {
-    activeRow.value = -1;
+  if (activeIndex.value == index) {
+    activeIndex.value = -1;
     return;
   }
-  activeRow.value = index;
-  const token = import.meta.env.VITE_GH_PERSONAL_ACCESS_TOKEN;
-  const response = await axios.get(
-    `https://api.github.com/repos/${row.owner.login}/${row.name}/commits`,
-    {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  rowData.value = response.data;
-
-  chartData.value = {
-    labels: rowData.value.map((r) => r.commit.message),
-    datasets: [
-      {
-        data: rowData.value.map((r) => r.commit.author.date),
-      },
-    ],
-  };
+  activeIndex.value = index;
+  activeRow.value = row;
 }
 
 const { cells, headers } = useTable<Data>({

@@ -29,8 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
 import { Dropdown, Button } from '@/components';
+import { usePagination } from '@/composables';
 
 type Props = {
   page: string | number;
@@ -60,28 +60,9 @@ const perPageItems = [
 
 const props = defineProps<Props>();
 
-const links = ref();
-const firstPage = ref();
-const prevPage = ref();
-const nextPage = ref();
-const lastPage = ref();
+const { links, firstPage, prevPage, nextPage, lastPage } = usePagination(props);
 
 const emit = defineEmits(['update:page', 'update:perPage']);
-
-watch(
-  () => props.link,
-  (value) => {
-    if (value) {
-      links.value = getLinks(value);
-      firstPage.value = getPage(links.value.first);
-      prevPage.value = getPage(links.value.prev);
-      nextPage.value = getPage(links.value.next);
-      lastPage.value = getPage(links.value.last);
-    } else {
-      links.value = null;
-    }
-  }
-);
 
 async function goToPage(e: string | number) {
   emit('update:page', e);
@@ -91,28 +72,6 @@ async function goToPage(e: string | number) {
 async function onUpdatePerPage(e: string | number) {
   emit('update:perPage', e);
   await props.fetch();
-}
-
-function getLinks(link: string) {
-  let parsedData: Record<string, unknown> = {};
-
-  const splitData = link.split(',');
-
-  for (let d of splitData) {
-    const linkInfo = /<([^>]+)>;\s+rel="([^"]+)"/gi.exec(d) as RegExpExecArray;
-
-    parsedData[linkInfo[2]] = linkInfo[1];
-  }
-
-  return parsedData;
-}
-
-function getPage(link: string) {
-  if (!link) {
-    return null;
-  }
-  const params = new URLSearchParams(link.split('?')[1]);
-  return params.get('page');
 }
 </script>
 
