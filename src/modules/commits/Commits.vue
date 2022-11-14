@@ -1,6 +1,7 @@
 <template>
   <div class="mb-4">
     <BranchDropdown
+      class="w-1/4"
       :repository="item"
       v-model="queryParams.sha"
       @change="fetch"

@@ -1,12 +1,15 @@
 <template>
   <div
     class="TextField"
-    :class="{
-      'TextField--hasFocus': hasFocus,
-      'TextField--inline': inline,
-      'TextField--error': errors.length,
-      'TextField--hasIcon' : icon,
-    }"
+    :class="[
+      {
+        'TextField--hasFocus': hasFocus,
+        'TextField--inline': inline,
+        'TextField--error': errors.length,
+        'TextField--hasIcon': icon,
+      },
+      `TextField--type-${type}`,
+    ]"
   >
     <label v-if="label" :for="name" class="TextField__label">
       {{ label }}
@@ -21,7 +24,7 @@
         :type="type"
         :id="name"
         :name="name"
-        :value="value"
+        :value="inputValue"
         :placeholder="inputPlaceholder"
         @keyup="onUpdate"
         @change="onUpdate"
@@ -43,14 +46,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useField } from 'vee-validate';
 
 type Props = {
   component?: 'input' | 'textarea';
-  type?: 'text';
+  type?: 'text' | 'hidden';
   name?: string;
-  value?: string;
+  value?: string | number | boolean | null;
   label?: string;
   placeholder?: string;
   standalone?: boolean;
@@ -60,6 +63,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+  value: '',
   component: 'input',
   type: 'text',
   standalone: false,
@@ -68,20 +72,28 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['update:value']);
 
-const { value, handleChange, handleBlur, errors } = useField(
-  props.name as string,
-  props.validation,
-  {
-    type: props.type,
-    initialValue: props.value,
-    standalone: props.standalone,
-  }
-);
+const {
+  value: inputValue,
+  handleChange,
+  handleBlur,
+  errors,
+} = useField(props.name as string, props.validation, {
+  type: props.type,
+  initialValue: props.value,
+  standalone: props.standalone,
+});
 
 const hasFocus = ref(false);
 
 const inputPlaceholder = computed(() =>
   props.placeholder ? props.placeholder : props.label
+);
+
+watch(
+  () => props.value,
+  (value) => {
+    inputValue.value = value;
+  }
 );
 
 function onUpdate(e: Event) {
@@ -100,6 +112,9 @@ function onBlur(e: Event) {
 </script>
 
 <style lang="postcss" scoped>
+.TextField--type-hidden {
+  @apply hidden;
+}
 .TextField--hasFocus .TextField__control {
   @apply border-2 border-blue-500;
 }
