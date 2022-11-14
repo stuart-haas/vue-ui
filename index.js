@@ -25,8 +25,8 @@ axiosInstance.interceptors.request.use((config) => {
 
 app.post('/contents', async (req, res) => {
   try {
-    const url = req.body.url;
-    const response = await axios.get(url);
+    const { contents_url } = req.body;
+    const response = await axios.get(contents_url);
     const buffer = Buffer.from(response.data.content, 'base64');
     const content = buffer.toString('utf-8');
     res.send(content);

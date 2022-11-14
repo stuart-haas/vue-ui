@@ -10,7 +10,7 @@
       <CommitDetail :data="commitDetail" :setFileDetail="setFileDetail" />
     </div>
   </div>
-  <highlightjs v-if="fileDetail" autodetect :code="fileDetail" />
+  <highlightjs v-if="fileRawData" autodetect :code="fileRawData" />
 </template>
 
 <script setup lang="ts">
@@ -27,13 +27,14 @@ const props = defineProps<Props>();
 
 const commitDetail = ref();
 const fileDetail = ref();
+const fileRawData = ref();
 
 const queryParams = reactive({
   page: 1,
   per_page: 10,
 });
 
-const { data, link, fetch } = useFetch(
+const { data, link, fetch } = useFetch<Commit[]>(
   `repos/${props.item.owner.login}/${props.item.name}/commits`,
   toRefs(queryParams)
 );
@@ -51,7 +52,8 @@ function setCommitDetail(item: Commit) {
   commitDetail.value = item;
 }
 
-function setFileDetail(item: File) {
+function setFileDetail(item: File, rawData: string) {
   fileDetail.value = item;
+  fileRawData.value = rawData;
 }
 </script>

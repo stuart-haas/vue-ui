@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in data"
       :key="index"
-      class="bg-gray-700 p-2 rounded border-2"
+      class="bg-gray-700 p-2 rounded border-2 cursor-pointer hover:bg-slate-600 transition-colors duration-200"
       :class="{
         'border-yellow-500': item.status == 'modified',
         'border-green-500': item.status == 'added',
