@@ -10,6 +10,7 @@ export type QueryParams = {
   direction?: Direction;
   per_page?: number;
   page?: number;
+  sha?: string;
 };
 
 export function useFetch<T = unknown>(

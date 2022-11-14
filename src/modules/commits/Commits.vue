@@ -1,4 +1,11 @@
 <template>
+  <div class="mb-4">
+    <BranchDropdown
+      :repository="item"
+      v-model="queryParams.sha"
+      @change="fetch"
+    />
+  </div>
   <div class="grid grid-cols-2">
     <div class="p-4 bg-gray-900" v-if="data && data.length">
       <div class="flex flex-col h-full justify-start">
@@ -17,7 +24,12 @@
 import { ref, onMounted, reactive, toRefs } from 'vue';
 import { useFetch } from '@/composables';
 import { Commit, File, Repository } from '@/api';
-import { CommitDetail, Pagination, CommitList } from './components';
+import {
+  CommitDetail,
+  Pagination,
+  CommitList,
+  BranchDropdown,
+} from './components';
 
 type Props = {
   item: Repository;
@@ -32,6 +44,7 @@ const fileRawData = ref();
 const queryParams = reactive({
   page: 1,
   per_page: 10,
+  sha: '',
 });
 
 const { data, link, fetch } = useFetch<Commit[]>(

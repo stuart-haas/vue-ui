@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { Dropdown, Button } from '@/components';
-import { usePagination } from '@/composables';
+import { usePagination, UsePaginationProps } from '@/composables';
 
 type Props = {
   page: string | number;
@@ -60,7 +60,9 @@ const perPageItems = [
 
 const props = defineProps<Props>();
 
-const { links, firstPage, prevPage, nextPage, lastPage } = usePagination(props);
+const { links, firstPage, prevPage, nextPage, lastPage } = usePagination(
+  props as UsePaginationProps
+);
 
 const emit = defineEmits(['update:page', 'update:perPage']);
 

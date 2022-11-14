@@ -20,7 +20,9 @@ const route = useRoute();
 
 const name = route.params.name as string;
 
-const { data, fetch } = useFetch<Repository>(`repos/${route.params.owner}/${name}`);
+const { data, fetch } = useFetch<Repository>(
+  `repos/${route.params.owner}/${name}`
+);
 
 onMounted(async () => {
   await fetch();
