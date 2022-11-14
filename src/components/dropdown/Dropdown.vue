@@ -15,11 +15,13 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownItem } from './types';
+
 type Props = {
   name: string;
   label: string;
-  items: { value: string | number | boolean | null; label: string }[];
-  modelValue: string | number | boolean | null;
+  items: DropdownItem[];
+  modelValue?: string | number | boolean | null;
 };
 
 defineProps<Props>();

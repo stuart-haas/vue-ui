@@ -1,28 +1,29 @@
 <template>
-  <Dropdown :items="items" label="Branches" name="branches" />
+  <Dropdown v-if="items" :items="items" label="Branches" name="branches" />
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Dropdown } from '@/components';
+import { Dropdown, DropdownItem } from '@/components';
 import { useFetch } from '@/composables';
+import { Branch, Repository } from '@/api';
 
 type Props = {
-  repository: any;
+  repository: Repository;
 };
 
 const props = defineProps<Props>();
 
-const { data, fetch } = useFetch<any[]>(
+const { data, fetch } = useFetch<Branch[]>(
   `repos/${props.repository.owner.login}/${props.repository.name}/branches`
 );
 
-const items = ref<any[]>();
+const items = ref<DropdownItem[]>();
 
 onMounted(async () => {
   await fetch();
   items.value = data.value?.map((r) => ({
-    name: r.name,
+    value: r.name,
     label: r.name,
   }));
 });

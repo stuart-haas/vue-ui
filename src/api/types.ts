@@ -53,3 +53,7 @@ export type File = {
   deletions: number;
   changes: number;
 };
+
+export type Branch = {
+  name: string;
+};

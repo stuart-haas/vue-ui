@@ -44,7 +44,7 @@ const fileRawData = ref();
 const queryParams = reactive({
   page: 1,
   per_page: 10,
-  sha: '',
+  sha: 'master',
 });
 
 const { data, link, fetch } = useFetch<Commit[]>(
