@@ -44,7 +44,7 @@ watch(
     const index =
       activeItem.value &&
       value.findIndex((r) => r.node_id === activeItem.value.node_id);
-    activeIndex.value = index > 0 ? index : -1;
+    activeIndex.value = index;
   }
 );
 

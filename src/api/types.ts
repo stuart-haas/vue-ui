@@ -41,6 +41,7 @@ export type Commit = {
   author: Author;
   stats: CommitStats;
   files: File[];
+  sha: string;
 };
 
 export type File = {

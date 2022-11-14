@@ -3,16 +3,19 @@
     <div
       v-for="(item, index) in data"
       :key="index"
-      class="bg-gray-700 p-2 rounded border-2 cursor-pointer hover:bg-slate-600 transition-colors duration-200"
-      :class="{
-        'border-yellow-500': item.status == 'modified',
-        'border-green-500': item.status == 'added',
-        'border-red-500': item.status == 'removed',
-        'border-orange-500': item.status == 'renamed',
-      }"
-      @click="getContents(item)"
+      class="p-2 rounded border-2 cursor-pointer hover:bg-slate-700 transition-colors duration-200"
+      :class="[
+        {
+          'border-yellow-500': item.status == 'modified',
+          'border-green-500': item.status == 'added',
+          'border-red-500': item.status == 'removed',
+          'border-orange-500': item.status == 'renamed',
+        },
+        activeIndex == index ? 'bg-slate-700' : 'bg-slate-900',
+      ]"
+      @click="getContents(item, index)"
     >
-      <p class="text-white text-sm">
+      <p class="text-white text-sm font-mono">
         <span v-if="item.previous_filename">
           {{ item.previous_filename }}
           <i class="fas fa-arrow-right text-xs mx-1" />
@@ -34,14 +37,11 @@
         </span>
       </div>
     </div>
-    <div>
-      {{ content }}
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 import { File } from '@/api';
 import { SetFileDetail } from '../types';
@@ -53,13 +53,26 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const content = ref();
+const activeItem = ref();
+const activeIndex = ref();
 
-async function getContents(item: File) {
+watch(
+  () => props.data,
+  (value) => {
+    const index =
+      activeItem.value &&
+      value.findIndex((r) => r.filename === activeItem.value.filename);
+    activeIndex.value = index;
+  }
+);
+
+async function getContents(item: File, index: number) {
   const { contents_url } = item;
   const response = await axios.post('http://localhost:3000/contents', {
     contents_url,
   });
+  activeItem.value = item;
+  activeIndex.value = index;
   props.setFileDetail(item, response.data);
 }
 </script>
