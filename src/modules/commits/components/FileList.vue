@@ -10,7 +10,7 @@
         'border-red-500': item.status == 'removed',
         'border-orange-500': item.status == 'renamed',
       }"
-      @click="getContents(item.contents_url)"
+      @click="getContents(item)"
     >
       <p class="text-white text-sm">
         <span v-if="item.previous_filename">
@@ -43,20 +43,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
+import { File } from '@/api';
+import { SetFileDetail } from '../types';
 
 type Props = {
-  data: any;
-  setFileDetail: any;
+  data: File[];
+  setFileDetail: SetFileDetail;
 };
 
 const props = defineProps<Props>();
 
 const content = ref();
 
-async function getContents(url: any) {
+async function getContents(item: File) {
+  const { contents_url } = item;
   const response = await axios.post('http://localhost:3000/contents', {
-    url,
+    contents_url,
   });
-  props.setFileDetail(response.data);
+  props.setFileDetail(item, response.data);
 }
 </script>

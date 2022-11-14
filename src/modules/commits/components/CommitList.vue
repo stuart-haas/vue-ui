@@ -25,11 +25,12 @@
 <script setup lang="ts">
 import { getRelativeDate } from '@/utils';
 import { ref, watch } from 'vue';
-import { axiosInstance } from '@/api';
+import { axiosInstance, Commit } from '@/api';
+import { SetCommitDetail } from '../types';
 
 type Props = {
-  data: any[];
-  setActiveItem: any;
+  data: Commit[];
+  setCommitDetail: SetCommitDetail;
 };
 
 const props = defineProps<Props>();
@@ -47,12 +48,12 @@ watch(
   }
 );
 
-async function fetch(item: any, index: number) {
+async function fetch(item: Commit, index: number) {
   const response = await axiosInstance.get(`${item.url}`);
 
   activeIndex.value = index;
   activeItem.value = response.data;
 
-  props.setActiveItem(activeItem.value);
+  props.setCommitDetail(activeItem.value);
 }
 </script>

@@ -39,9 +39,7 @@
               </Tag>
             </DataTable.Cell>
             <DataTable.Cell align="right">
-              <Link
-                :to="`/repositories/${(row as any).owner.login}/${row.name}`"
-              >
+              <Link :to="`/repositories/${row.owner.login}/${row.name}`">
                 View
               </Link>
             </DataTable.Cell>
@@ -127,7 +125,7 @@ const queryParams = reactive({
   page: 1,
 });
 
-const { data, link, fetch } = useFetch(
+const { data, link, fetch } = useFetch<Repository[]>(
   'user/repos',
   toRefs(queryParams as QueryParams)
 );

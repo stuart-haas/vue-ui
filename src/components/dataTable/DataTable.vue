@@ -42,7 +42,7 @@ import {
 } from './types';
 
 type Props = {
-  data: DataTableDataSchema[];
+  data: DataTableDataSchema<any>[];
   headers?: DataTableHeaderSchema[];
   cells?: DataTableCellSchema[];
 };

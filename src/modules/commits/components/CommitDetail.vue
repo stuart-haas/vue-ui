@@ -92,10 +92,12 @@
 import { getRelativeDate } from '@/utils';
 import { Popover } from '@/components';
 import { FileList } from '.';
+import { SetFileDetail } from '../types';
+import { Commit } from '@/api';
 
 type Props = {
-  data: any;
-  setFileDetail: any;
+  data: Commit;
+  setFileDetail: SetFileDetail;
 };
 
 defineProps<Props>();

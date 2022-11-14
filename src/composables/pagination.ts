@@ -1,6 +1,10 @@
 import { ref, watch } from 'vue';
 
-export function usePagination(props: any) {
+export type UsePaginationProps = {
+  link: string;
+}
+
+export function usePagination(props: UsePaginationProps) {
   const links = ref();
   const currentPage = ref();
   const firstPage = ref();
@@ -15,7 +19,7 @@ export function usePagination(props: any) {
     }
   );
 
-  function makeLinks(value: any) {
+  function makeLinks(value: string) {
     if (value) {
       links.value = getLinks(value);
       firstPage.value = getPage(links.value.first);

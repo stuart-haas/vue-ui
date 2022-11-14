@@ -46,8 +46,8 @@ import { usePagination } from '@/composables';
 import { watch } from 'vue';
 
 type Props = {
-  link: any;
-  goToPage: any;
+  link: string;
+  goToPage: (value: string | number) => Promise<void>;
 };
 
 const props = defineProps<Props>();

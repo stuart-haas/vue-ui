@@ -3,7 +3,7 @@
     <div class="p-4 bg-gray-900" v-if="data && data.length">
       <div class="flex flex-col h-full justify-start">
         <Pagination :link="link" :goToPage="goToPage" />
-        <CommitList :data="data" :setActiveItem="setCommitDetail" />
+        <CommitList :data="data" :setCommitDetail="setCommitDetail" />
       </div>
     </div>
     <div>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive, toRefs } from 'vue';
 import { useFetch } from '@/composables';
-import { Repository } from '@/api';
+import { Commit, File, Repository } from '@/api';
 import { CommitDetail, Pagination, CommitList } from './components';
 
 type Props = {
@@ -42,16 +42,16 @@ onMounted(async () => {
   await fetch();
 });
 
-async function goToPage(value: number) {
-  queryParams.page = value;
+async function goToPage(value: string | number) {
+  queryParams.page = value as number;
   await fetch();
 }
 
-function setCommitDetail(data: any) {
-  commitDetail.value = data;
+function setCommitDetail(item: Commit) {
+  commitDetail.value = item;
 }
 
-function setFileDetail(data: any) {
-  fileDetail.value = data;
+function setFileDetail(item: File) {
+  fileDetail.value = item;
 }
 </script>

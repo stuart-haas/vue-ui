@@ -64,13 +64,13 @@ const { links, firstPage, prevPage, nextPage, lastPage } = usePagination(props);
 
 const emit = defineEmits(['update:page', 'update:perPage']);
 
-async function goToPage(e: string | number) {
-  emit('update:page', e);
+async function goToPage(value: string | number) {
+  emit('update:page', value);
   await props.fetch();
 }
 
-async function onUpdatePerPage(e: string | number) {
-  emit('update:perPage', e);
+async function onUpdatePerPage(value: string | number) {
+  emit('update:perPage', value);
   await props.fetch();
 }
 </script>

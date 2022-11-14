@@ -12,8 +12,11 @@ export type QueryParams = {
   page?: number;
 };
 
-export function useFetch(endpoint: string, queryParams?: ToRefs<QueryParams>) {
-  const data = ref();
+export function useFetch<T = unknown>(
+  endpoint: string,
+  queryParams?: ToRefs<QueryParams>
+) {
+  const data = ref<T>();
   const link = ref();
 
   async function fetch() {

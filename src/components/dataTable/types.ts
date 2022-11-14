@@ -3,7 +3,7 @@ import { Component, TdHTMLAttributes, ThHTMLAttributes } from 'vue';
 export type DataTableCellArgs<T = unknown> = {
   row: T;
   index: number;
-  data: DataTableDataSchema[];
+  data: DataTableDataSchema<T>[];
 };
 
 export type DataTableCellSchema<T = unknown> = {
@@ -22,4 +22,4 @@ export type DataTableHeaderSchema = {
   componentAttributes?: () => unknown;
 };
 
-export type DataTableDataSchema = Record<string, unknown>;
+export type DataTableDataSchema<T = Record<string, unknown>> = T;
