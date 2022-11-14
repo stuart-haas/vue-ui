@@ -2,7 +2,7 @@
   "name": "vue-ui",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --host & nodemon index.js",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050",
     "lint": "eslint . --ext .vue,.js,.ts",

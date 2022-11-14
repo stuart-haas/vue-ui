@@ -27,7 +27,7 @@ app.post('/contents', async (req, res) => {
   try {
     const url = req.body.url;
     const response = await axios.get(url);
-    const buffer = new Buffer(response.data.content, 'base64');
+    const buffer = Buffer.from(response.data.content, 'base64');
     const content = buffer.toString('utf-8');
     res.send(content);
   } catch (e) {
