@@ -14,12 +14,13 @@ import { Commits } from '@/modules';
 import { onMounted } from 'vue';
 import { useFetch } from '@/composables';
 import { useRoute } from 'vue-router';
+import { Repository } from '@/api';
 
 const route = useRoute();
 
 const name = route.params.name as string;
 
-const { data, fetch } = useFetch(`repos/${route.params.owner}/${name}`);
+const { data, fetch } = useFetch<Repository>(`repos/${route.params.owner}/${name}`);
 
 onMounted(async () => {
   await fetch();
