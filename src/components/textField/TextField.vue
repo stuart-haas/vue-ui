@@ -53,7 +53,7 @@ type Props = {
   component?: 'input' | 'textarea';
   type?: 'text' | 'hidden';
   name?: string;
-  value?: string | number | boolean | null;
+  modelValue?: string | number | boolean | null;
   label?: string;
   placeholder?: string;
   standalone?: boolean;
@@ -63,14 +63,14 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-  value: '',
+  modelValue: '',
   component: 'input',
   type: 'text',
   standalone: false,
   inline: false,
 });
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:modelValue']);
 
 const {
   value: inputValue,
@@ -79,7 +79,7 @@ const {
   errors,
 } = useField(props.name as string, props.validation, {
   type: props.type,
-  initialValue: props.value,
+  initialValue: props.modelValue,
   standalone: props.standalone,
 });
 
@@ -90,14 +90,14 @@ const inputPlaceholder = computed(() =>
 );
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   (value) => {
     inputValue.value = value;
   }
 );
 
 function onUpdate(e: Event) {
-  emit('update:value', (e.target as HTMLInputElement).value);
+  emit('update:modelValue', (e.target as HTMLInputElement).value);
   handleChange(e);
 }
 
@@ -131,7 +131,7 @@ function onBlur(e: Event) {
   @apply inline mr-2;
 }
 .TextField__control {
-  @apply border border-gray-300 rounded inline-block px-3 pb-1.5 pt-1 w-96 bg-white transition duration-200;
+  @apply border border-gray-300 rounded inline-block px-3 pb-1.5 pt-1 w-full bg-white transition duration-200;
 }
 .TextField__component {
   @apply outline-none;

@@ -1,11 +1,12 @@
 <template>
-  <div class="mb-4">
+  <div class="mb-4 flex items-center justify-start space-x-4">
     <BranchDropdown
       class="w-1/4"
       :repository="item"
       v-model="queryParams.sha"
       @change="fetch"
     />
+    <TextField label="Search" name="search" class="w-1/4" v-model="search" />
   </div>
   <div class="grid grid-cols-2">
     <div class="p-4 bg-gray-900" v-if="data && data.length">
@@ -22,25 +23,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, toRefs } from 'vue';
+import { ref, onMounted, reactive, toRefs, watch } from 'vue';
 import { useFetch } from '@/composables';
-import { Commit, File, Repository } from '@/api';
+import { axiosInstance, Commit, File, Repository } from '@/api';
 import {
   CommitDetail,
   Pagination,
   CommitList,
   BranchDropdown,
 } from './components';
+import { TextField } from '@/components';
 
 type Props = {
   item: Repository;
 };
+
+let searchTimeout: any;
 
 const props = defineProps<Props>();
 
 const commitDetail = ref();
 const fileDetail = ref();
 const fileRawData = ref();
+const search = ref();
 
 const queryParams = reactive({
   page: 1,
@@ -51,6 +56,19 @@ const queryParams = reactive({
 const { data, link, fetch } = useFetch<Commit[]>(
   `repos/${props.item.owner.login}/${props.item.name}/commits`,
   toRefs(queryParams)
+);
+
+watch(
+  () => search.value,
+  (value) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      const response = await axiosInstance.get(
+        `search/code?q=${value}+repo:${props.item.full_name}`
+      );
+      console.log(response);
+    }, 1000);
+  }
 );
 
 onMounted(async () => {

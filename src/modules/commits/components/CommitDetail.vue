@@ -95,7 +95,9 @@
               <i
                 class="fas fa-caret-up absolute text-2xl -top-4 text-white left-1/2 transform -translate-x-1/2 text-center"
               />
-              <div class="p-1 bg-white text-black rounded text-xs">
+              <div
+                class="p-1 bg-white text-black rounded text-xs whitespace-nowrap"
+              >
                 SHA copied to clipboard
               </div>
             </div>
