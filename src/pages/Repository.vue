@@ -2,7 +2,7 @@
   <Page :title="name">
     <Layout.Section>
       <Card title="Commits">
-        <CommitHistory v-if="data" :item="data" />
+        <Commits v-if="data" :item="data" />
       </Card>
     </Layout.Section>
   </Page>
@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { Page, Card, Layout } from '@/components';
-import { CommitHistory } from '@/modules';
+import { Commits } from '@/modules';
 import { onMounted } from 'vue';
 import { useFetch } from '@/composables';
 import { useRoute } from 'vue-router';

@@ -2,6 +2,7 @@ import { ref, watch } from 'vue';
 
 export function usePagination(props: any) {
   const links = ref();
+  const currentPage = ref();
   const firstPage = ref();
   const prevPage = ref();
   const nextPage = ref();
@@ -21,6 +22,12 @@ export function usePagination(props: any) {
       prevPage.value = getPage(links.value.prev);
       nextPage.value = getPage(links.value.next);
       lastPage.value = getPage(links.value.last);
+      if (lastPage.value) {
+        currentPage.value = +nextPage.value - 1;
+      }
+      if (firstPage.value) {
+        currentPage.value = +prevPage.value + 1;
+      }
     } else {
       links.value = null;
     }
@@ -52,6 +59,7 @@ export function usePagination(props: any) {
 
   return {
     links,
+    currentPage,
     firstPage,
     prevPage,
     nextPage,

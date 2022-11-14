@@ -72,17 +72,7 @@ import {
 import { useTable, useFetch, QueryParams } from '@/composables';
 import { onMounted, toRefs, reactive } from 'vue';
 import { DateTime } from 'luxon';
-
-type Data = {
-  id: number;
-  name: string;
-  html_url: string;
-  visibility: string;
-  topics: string[];
-  pushed_at: string;
-  created_at: string;
-  owner: { login: string };
-};
+import { Repository } from '@/api';
 
 const visibilityItems = [
   {
@@ -146,7 +136,7 @@ onMounted(async () => {
   await fetch();
 });
 
-const { cells, headers } = useTable<Data>({
+const { cells, headers } = useTable<Repository>({
   headerMap: [
     {
       label: 'Name',

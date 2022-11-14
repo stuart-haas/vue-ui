@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '@/api';
 import { ref, ToRefs } from 'vue';
 
 export type Visibility = 'all' | 'public' | 'private';
@@ -25,18 +25,8 @@ export function useFetch(endpoint: string, queryParams?: ToRefs<QueryParams>) {
       });
     }
 
-    const token = import.meta.env.VITE_GH_PERSONAL_ACCESS_TOKEN;
-    const axiosInstance = axios.create({
-      baseURL: 'https://api.github.com',
-    });
     const response = await axiosInstance.get(
-      `${endpoint}?${urlSearchParams.toString()}`,
-      {
-        headers: {
-          Accept: 'application/vnd.github+json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${endpoint}?${urlSearchParams.toString()}`
     );
 
     data.value = response.data;
