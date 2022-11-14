@@ -13,6 +13,7 @@
   },
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["src/**/*", "src/**/*.vue"],
+  "exclude": ["index.js"],
   "references": [
     {
       "path": "./tsconfig.vite-config.json"
