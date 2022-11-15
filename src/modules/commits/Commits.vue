@@ -19,7 +19,11 @@
       <CommitDetail :data="commitDetail" :setFileDetail="setFileDetail" />
     </div>
   </div>
-  <highlightjs v-if="fileRawData" autodetect :code="fileRawData" />
+  <div v-if="fileDetail">
+    <h2 class="my-4 text-lg font-mono">{{ fileDetail.filename }}</h2>
+    <highlightjs v-if="fileRawData" autodetect :code="fileRawData" />
+    <span v-else>The file has no content</span>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -91,6 +95,7 @@ function setCommitDetail(item: Commit) {
 
 function setFileDetail(item: File, rawData: string) {
   fileDetail.value = item;
-  fileRawData.value = rawData;
+  fileRawData.value =
+    typeof rawData === 'object' ? JSON.stringify(rawData, null, 4) : rawData;
 }
 </script>
