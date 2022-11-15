@@ -6,7 +6,6 @@
         'TextField--hasFocus': hasFocus,
         'TextField--inline': inline,
         'TextField--error': errors.length,
-        'TextField--hasIcon': icon,
       },
       `TextField--type-${type}`,
     ]"
@@ -15,22 +14,27 @@
       {{ label }}
     </label>
     <div class="TextField__control">
-      <div v-if="icon" class="TextField__icon">
-        <i :class="icon" />
+      <div v-if="iconLeft" class="TextField__icon-left">
+        <i :class="iconLeft" />
       </div>
       <component
         class="TextField__component"
+        :class="[{ 'TextField__component--readonly': readonly }]"
         :is="component"
         :type="type"
         :id="name"
         :name="name"
         :value="inputValue"
         :placeholder="inputPlaceholder"
+        :readonly="readonly"
         @keyup="onUpdate"
         @change="onUpdate"
         @focus="onFocus"
         @blur="onBlur"
       />
+      <div v-if="iconRight" class="TextField__icon-right">
+        <i :class="iconRight" />
+      </div>
     </div>
     <div v-if="errors.length" class="TextField__errors">
       <span
@@ -59,7 +63,9 @@ type Props = {
   standalone?: boolean;
   inline?: boolean;
   validation?: any;
-  icon?: string;
+  iconLeft?: string;
+  iconRight?: string;
+  readonly?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -68,6 +74,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   standalone: false,
   inline: false,
+  readonly: false,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -116,7 +123,7 @@ function onBlur(e: Event) {
   @apply hidden;
 }
 .TextField--hasFocus .TextField__control {
-  @apply border-2 border-blue-500;
+  @apply border-blue-500;
 }
 .TextField--inline .TextField__label {
   @apply inline-block mr-2;
@@ -127,14 +134,20 @@ function onBlur(e: Event) {
 .TextField__label {
   @apply block text-sm;
 }
-.TextField__icon {
-  @apply inline mr-2;
+.TextField__icon-left {
+  @apply mr-2;
+}
+.TextField__icon-right {
+  @apply ml-2;
 }
 .TextField__control {
-  @apply border border-gray-300 rounded inline-block px-3 pb-1.5 pt-1 w-full bg-white transition duration-200;
+  @apply flex items-center justify-between border border-gray-300 rounded px-3 pb-1.5 pt-1 w-full bg-white transition duration-200;
 }
 .TextField__component {
-  @apply outline-none;
+  @apply outline-none flex-1;
+}
+.TextField__component--readonly {
+  @apply cursor-pointer;
 }
 .TextField__errors {
   @apply mt-1;

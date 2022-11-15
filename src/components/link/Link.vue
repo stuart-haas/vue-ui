@@ -1,8 +1,8 @@
 <template>
   <component :is="component" class="Link">
-    <i v-if="iconLeft" :class="iconLeft" class="Link__icon_left" />
+    <i v-if="iconLeft" :class="iconLeft" class="Link__icon-left" />
     <slot />
-    <i v-if="iconRight" :class="iconRight" class="Link__icon_right" />
+    <i v-if="iconRight" :class="iconRight" class="Link__icon-right" />
   </component>
 </template>
 
@@ -22,10 +22,10 @@ withDefaults(defineProps<Props>(), {
 .Link {
   @apply text-blue-500 font-semibold whitespace-nowrap;
 }
-.Link__icon_left {
+.Link__icon-left {
   @apply mr-2;
 }
-.Link__icon_right {
+.Link__icon-right {
   @apply ml-2;
 }
 </style>

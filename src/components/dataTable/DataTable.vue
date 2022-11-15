@@ -1,6 +1,6 @@
 <template>
   <table class="DataTable">
-    <thead class="DataTable__header_group">
+    <thead class="DataTable__header-group">
       <slot name="prependHeader" />
       <DataTableHeader
         v-for="(header, index) in headerMap"
