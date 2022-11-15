@@ -12,11 +12,11 @@
         </div>
         <div class="flex items-center space-x-4">
           <a
-            :href="data.author.html_url"
+            :href="data.author?.html_url"
             target="_blank"
             class="block rounded-full overflow-hidden w-8 h-8"
           >
-            <img :src="data.author.avatar_url" />
+            <img :src="data.author?.avatar_url" />
           </a>
           <p class="text-sm text-gray-300">
             Authored by {{ data.commit.author.name }}

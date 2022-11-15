@@ -7,7 +7,7 @@
   >
     <TextField
       class="Dropdown__field"
-      v-model="label"
+      v-model="activeItemLabel"
       :name="name"
       :label="label"
       :iconRight="active ? 'fas fa-caret-left' : 'fas fa-caret-down'"
@@ -50,9 +50,9 @@ const activeItem = computed(() =>
   props.items.find((r) => r.value === props.modelValue)
 );
 
-const value = computed(() => activeItem.value?.value);
+const activeItemValue = computed(() => activeItem.value?.value);
 
-const label = computed(() => activeItem.value?.label);
+const activeItemLabel = computed(() => activeItem.value?.label);
 
 function toggle() {
   active.value = !active.value;

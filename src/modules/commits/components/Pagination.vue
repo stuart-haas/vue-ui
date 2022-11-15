@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-between mb-4">
-    <div v-if="links" class="space-x-8 text-center">
+  <div v-if="links" class="flex items-center justify-between mb-4">
+    <div class="space-x-8 text-center">
       <button
         :disabled="!firstPage"
         @click="goToPage(firstPage)"

@@ -9,15 +9,14 @@
       <Button :disabled="!lastPage" @click="goToPage(lastPage)"> Last</Button>
     </div>
     <div class="Pagination__info">
-      <span>
+      <span v-if="links">
         Page
         {{ page }} of
         {{ lastPage || page }}
       </span>
     </div>
-    <div class="Pagination__dropdown">
+    <div v-if="nextPage && links" class="Pagination__dropdown">
       <Dropdown
-        v-if="nextPage"
         :modelValue="perPage"
         @update:modelValue="onUpdatePerPage"
         label="Per Page"
