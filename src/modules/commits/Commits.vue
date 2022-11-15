@@ -64,7 +64,12 @@ watch(
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(async () => {
       const response = await axiosInstance.get(
-        `search/code?q=${value}+repo:${props.item.full_name}`
+        `search/code?q=${value}+repo:${props.item.full_name}`,
+        {
+          headers: {
+            Accept: 'application/vnd.github.text-match+json',
+          },
+        }
       );
       console.log(response);
     }, 1000);
